@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, createContext } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import './App.css';
 import shoe from './data.js';
@@ -6,8 +6,11 @@ import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './pages/Detail.js';
 import axios from 'axios';
 
+export const Context1 = createContext();
+
 function App() {
   const [shoes, setShoes] = useState(shoe);
+  const [stock] = useState([10, 11, 12]);
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -23,13 +26,13 @@ function App() {
 
       <Navbar bg='dark' variant='dark'>
         <Container>
-          <Navbar.Brand onClick={() => navigate('/my-second-react')}>
+          <Navbar.Brand onClick={() => navigate('/react-shop')}>
             Jayful
           </Navbar.Brand>
           <Nav className='me-auto'>
             <Nav.Link
               onClick={() => {
-                navigate('/my-second-react');
+                navigate('/react-shop');
               }}
             >
               Home
@@ -55,7 +58,7 @@ function App() {
 
       <Routes>
         <Route
-          path='/my-second-react'
+          path='/react-shop'
           element={
             <>
               <div className='main-bg'>
@@ -98,7 +101,14 @@ function App() {
         <Route path='/about' element={<About />}>
           <Route path='member' element={<div>member</div>} />
         </Route>
-        <Route path='/detail/:id' element={<Detail shoes={shoes} />} />
+        <Route
+          path='/detail/:id'
+          element={
+            <Context1.Provider value={{ stock, shoes }}>
+              <Detail shoes={shoes} />
+            </Context1.Provider>
+          }
+        />
         <Route path='event' element={<EventPage />}>
           <Route path='one' element={<p>初めてのお客様にプレゼント</p>} />
           <Route path='two' element={<p>誕生日プレゼントをもらう</p>} />

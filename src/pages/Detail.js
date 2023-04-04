@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { Nav, Tab } from 'react-bootstrap';
 // import styled from 'styled-components';
+import { Context1 } from './../App.js';
 
 // let YellowBtn = styled.button`
 //   background: yellow;
 // `;
 
 function Detail(props) {
+  // const { stock } = useContext(Context1);
   let { id } = useParams();
   const find = props.shoes.find(n => n.id == id);
 
@@ -71,6 +73,7 @@ function Detail(props) {
 }
 
 function TabContent({ tab }) {
+  const { stock } = useContext(Context1);
   const [fade, setFade] = useState('start');
   useEffect(() => {
     setTimeout(() => {
@@ -82,7 +85,13 @@ function TabContent({ tab }) {
   }, [tab]);
   return (
     <div className={`start ${fade}`}>
-      {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]}
+      {
+        [
+          <div>{stock[tab]}</div>,
+          <div>{stock[tab]}</div>,
+          <div>{stock[tab]}</div>,
+        ][tab]
+      }
     </div>
   );
   // if (tab == 0) {
