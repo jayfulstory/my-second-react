@@ -4,6 +4,7 @@ import './App.css';
 import shoe from './data.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './pages/Detail.js';
+import Cart from './pages/cart.js';
 import axios from 'axios';
 
 export const Context1 = createContext();
@@ -51,7 +52,13 @@ function App() {
             >
               Detail
             </Nav.Link>
-            <Nav.Link href='#pricing'>Blog</Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate('/cart');
+              }}
+            >
+              Cart
+            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -81,7 +88,6 @@ function App() {
                   }
                   if (offset < urls.length) {
                     setLoading(true);
-                    console.log(loading);
                     axios
                       .get(urls[offset])
                       .then(data => {
@@ -109,6 +115,7 @@ function App() {
             </Context1.Provider>
           }
         />
+        <Route path='/cart' element={<Cart />} />
         <Route path='event' element={<EventPage />}>
           <Route path='one' element={<p>初めてのお客様にプレゼント</p>} />
           <Route path='two' element={<p>誕生日プレゼントをもらう</p>} />
@@ -124,7 +131,6 @@ function Button(props) {
   return (
     <button
       onClick={() => {
-        console.log(props.shoes);
         const sort = [...props.shoes].sort((a, b) =>
           a.title - b.title ? 1 : -1
         );

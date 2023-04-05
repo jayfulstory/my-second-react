@@ -2,7 +2,9 @@ import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { Nav, Tab } from 'react-bootstrap';
 // import styled from 'styled-components';
-import { Context1 } from './../App.js';
+// import { Context1 } from './../App.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { toCart } from './../store.js';
 
 // let YellowBtn = styled.button`
 //   background: yellow;
@@ -16,6 +18,9 @@ function Detail(props) {
   const [display, setDisplay] = useState(true);
   const [tab, setTab] = useState(0);
   const [fade, setFade] = useState('start');
+
+  const state = useSelector(state => state.toCart);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTimeout(() => {
@@ -47,7 +52,14 @@ function Detail(props) {
           <h4 className='pt-5'>{find.title}</h4>
           <p>{find.content}</p>
           <p>{find.price}</p>
-          <button className='btn btn-danger'>주문하기</button>
+          <button
+            className='btn btn-danger'
+            onClick={() => {
+              dispatch(toCart(find));
+            }}
+          >
+            주문하기
+          </button>
         </div>
       </div>
       <Nav variant='tabs' defaultActiveKey='link0'>
@@ -73,7 +85,8 @@ function Detail(props) {
 }
 
 function TabContent({ tab }) {
-  const { stock } = useContext(Context1);
+  // const { stock } = useContext(Context1);
+  const a = useSelector(state => state.stock);
   const [fade, setFade] = useState('start');
   useEffect(() => {
     setTimeout(() => {
@@ -85,13 +98,7 @@ function TabContent({ tab }) {
   }, [tab]);
   return (
     <div className={`start ${fade}`}>
-      {
-        [
-          <div>{stock[tab]}</div>,
-          <div>{stock[tab]}</div>,
-          <div>{stock[tab]}</div>,
-        ][tab]
-      }
+      {[<div>{a[tab]}</div>, <div>{a[tab]}</div>, <div>{a[tab]}</div>][tab]}
     </div>
   );
   // if (tab == 0) {
@@ -124,7 +131,6 @@ function Input() {
         value={val}
         onChange={e => {
           setVal(e.target.value);
-          // console.log(val);
         }}
       />
     </>
