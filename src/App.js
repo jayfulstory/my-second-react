@@ -1,4 +1,4 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import './App.css';
 import shoe from './data.js';
@@ -8,8 +8,18 @@ import Cart from './pages/cart.js';
 import axios from 'axios';
 
 export const Context1 = createContext();
+const getItem = JSON.parse(localStorage.getItem('watched'));
 
 function App() {
+  useEffect(() => {
+    if (!JSON.parse(localStorage.getItem('watched'))) {
+      const set = new Set([]);
+      const arr = [...set];
+      const items = JSON.stringify(arr);
+      localStorage.setItem('watched', items);
+    }
+  }, []);
+
   const [shoes, setShoes] = useState(shoe);
   const [stock] = useState([10, 11, 12]);
   const [offset, setOffset] = useState(0);

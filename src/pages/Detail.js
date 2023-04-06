@@ -19,8 +19,25 @@ function Detail(props) {
   const [tab, setTab] = useState(0);
   const [fade, setFade] = useState('start');
 
-  const state = useSelector(state => state.toCart);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getItem = JSON.parse(localStorage.getItem('watched'));
+    console.log(getItem);
+    if (!getItem) {
+      const set = new Set([find.id]);
+      const arr = [...set];
+      const items = JSON.stringify(arr);
+      localStorage.setItem('watched', items);
+    } else {
+      const getItem = JSON.parse(localStorage.getItem('watched'));
+      const set = new Set([...getItem]);
+      set.add(find.id);
+      const arr = [...set];
+      const items = JSON.stringify(arr);
+      localStorage.setItem('watched', items);
+    }
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -86,7 +103,7 @@ function Detail(props) {
 
 function TabContent({ tab }) {
   // const { stock } = useContext(Context1);
-  const a = useSelector(state => state.stock);
+  const stock = useSelector(state => state.stock);
   const [fade, setFade] = useState('start');
   useEffect(() => {
     setTimeout(() => {
@@ -98,7 +115,13 @@ function TabContent({ tab }) {
   }, [tab]);
   return (
     <div className={`start ${fade}`}>
-      {[<div>{a[tab]}</div>, <div>{a[tab]}</div>, <div>{a[tab]}</div>][tab]}
+      {
+        [
+          <div>{stock[tab]}</div>,
+          <div>{stock[tab]}</div>,
+          <div>{stock[tab]}</div>,
+        ][tab]
+      }
     </div>
   );
   // if (tab == 0) {

@@ -54,6 +54,8 @@ function Tbody() {
             >
               +
             </button>
+            <button>-</button>
+            <button>削除</button>
           </td>
         </tr>
       </tbody>
