@@ -6,9 +6,10 @@ import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './pages/Detail.js';
 import Cart from './pages/cart.js';
 import axios from 'axios';
+import { useQuery } from 'react-query';
 
 export const Context1 = createContext();
-const getItem = JSON.parse(localStorage.getItem('watched'));
+// const getItem = JSON.parse(localStorage.getItem('watched'));
 
 function App() {
   useEffect(() => {
@@ -30,12 +31,26 @@ function App() {
     'https://codingapple1.github.io/shop/data2.json',
     'https://codingapple1.github.io/shop/data3.json',
   ];
+
+  const result = useQuery('name', () =>
+    fetch('https://codingapple1.github.io/userdata.json')
+      .then(res => res.json())
+      .then(data => console.log(data))
+  );
+
+  // data
+  console.log(result.data);
+  // loading中の時true
+  console.log(result.isLoading);
+  // 失敗したらtrueになる
+  console.log(result.error);
+
   return (
     <div className='App'>
       {/* <Link to='/'>홈</Link> */}
       {/* <Link to='detail'>상세페이지</Link> */}
 
-      <Navbar bg='dark' variant='dark'>
+      <Navbar bg='light' variant='light'>
         <Container>
           <Navbar.Brand onClick={() => navigate('/react-shop')}>
             Jayful
@@ -69,6 +84,12 @@ function App() {
             >
               Cart
             </Nav.Link>
+          </Nav>
+          <Nav className='ms-auto'>
+            {/* Hello {result.isLoading ? 'loading' : result.data.name} */}
+            {result.isLoading && 'loading'}
+            {result.error && 'error'}
+            {result.data && result.data.name}
           </Nav>
         </Container>
       </Navbar>
