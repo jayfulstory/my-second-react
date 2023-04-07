@@ -1,13 +1,34 @@
+import { memo, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { add } from '../store.js';
 import { changeName, increaseAge } from './../store/userSlice.js';
 
+// memoはpropsが変わる時だけ再レンダリング
+const Child = memo(() => {
+  console.log('render');
+  return <div>child</div>;
+});
+
+function f() {
+  for (let i = 0; i < 10000000000; i++) {
+    console.log(i);
+  }
+}
+
 function Cart() {
+  // コンポーネントがレンダリングする時１回だけ実行
+  // [state]<<stateは変わる時だけ
+  // const result = useMemo(() => {
+  //   return f();
+  // }, [state]);
   const state = useSelector(state => state.user);
   const dispatch = useDispatch();
+  const [count, setCount] = useState(0);
   return (
     <div>
+      <Child count={count}></Child>
+      <button onClick={() => setCount(count + 1)}>+</button>
       <h4>
         {state.name}
         {state.age}
