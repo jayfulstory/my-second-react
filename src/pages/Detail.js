@@ -23,7 +23,7 @@ function Detail(props) {
 
   useEffect(() => {
     const getItem = JSON.parse(localStorage.getItem('watched'));
-    console.log(getItem);
+    // console.log(getItem);
     if (!getItem) {
       const set = new Set([find.id]);
       const arr = [...set];

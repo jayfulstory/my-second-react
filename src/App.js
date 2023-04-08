@@ -6,9 +6,9 @@ import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 // import Detail from './pages/Detail.js';
-// import Cart from './pages/cart.js';
+import Cart from './pages/cart.js';
 const Detail = lazy(() => import('./pages/Detail.js'));
-const Cart = lazy(() => import('./pages/cart.js'));
+// const Cart = lazy(() => import('./pages/cart.js'));
 
 export const Context1 = createContext();
 // const getItem = JSON.parse(localStorage.getItem('watched'));
@@ -18,6 +18,7 @@ function App() {
     if (!JSON.parse(localStorage.getItem('watched'))) {
       const set = new Set([]);
       const arr = [...set];
+      console.log(arr);
       const items = JSON.stringify(arr);
       localStorage.setItem('watched', items);
     }
@@ -134,6 +135,7 @@ function App() {
               >
                 button
               </button>
+              <Viewed shoes={shoes}></Viewed>
             </>
           }
         />
@@ -209,6 +211,24 @@ function Items(props) {
       </div>
     );
   });
+}
+function Viewed(props) {
+  const getItem = JSON.parse(localStorage.getItem('watched'));
+  let arr = [];
+  if (getItem) {
+    arr = [...getItem];
+  }
+
+  return (
+    getItem && (
+      <>
+        <h3>最近見た商品</h3>
+        {arr.map(i => {
+          return <p key={i}>{props.shoes[i].title} </p>;
+        })}
+      </>
+    )
+  );
 }
 
 export default App;

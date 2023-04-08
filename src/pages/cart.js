@@ -1,12 +1,12 @@
 import { memo, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { add } from '../store.js';
+import { updateCount } from '../store.js';
 import { changeName, increaseAge } from './../store/userSlice.js';
 
 // memoはpropsが変わる時だけ再レンダリング
 const Child = memo(() => {
-  console.log('render');
+  // console.log('render');
   return <div>child</div>;
 });
 
@@ -69,14 +69,25 @@ function Tbody() {
           <td>
             <button
               onClick={() => {
-                // console.log(val.id);
-                dispatch(add(val.id));
+                dispatch(updateCount({ id: val.id, type: 'add' }));
               }}
             >
               +
             </button>
-            <button>-</button>
-            <button>削除</button>
+            <button
+              onClick={() => {
+                dispatch(updateCount({ id: val.id, type: 'subtract' }));
+              }}
+            >
+              -
+            </button>
+            <button
+              onClick={() => {
+                dispatch(updateCount({ id: val.id, type: 'delete' }));
+              }}
+            >
+              削除
+            </button>
           </td>
         </tr>
       </tbody>

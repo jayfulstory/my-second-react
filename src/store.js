@@ -1,5 +1,6 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 import user from './store/userSlice.js';
+import { useState } from 'react';
 
 let stock = createSlice({
   name: 'stock',
@@ -10,13 +11,20 @@ let cart = createSlice({
   name: 'cart',
   initialState: [],
   reducers: {
-    add(state, action) {
-      const index = state.findIndex(obj => obj.id == action.payload);
-      state[index].count += 1;
+    updateCount(state, action) {
+      const { id, type } = action.payload;
+      const index = state.findIndex(obj => obj.id == id);
+      if (type == 'add') {
+        state[index].count += 1;
+      } else if (type == 'subtract' && state[index].count > 0) {
+        state[index].count -= 1;
+      } else if (type == 'delete') {
+        const result = state.filter(obj => obj.id != id);
+        return result;
+      }
     },
     toCart(state, action) {
-      const index = state.findIndex(obj => obj.id == action.payload);
-      console.log(index);
+      let index = state.findIndex(obj => obj.id == action.payload.id);
       if (index == -1) {
         state.push({ ...action.payload, count: 1 });
       } else {
@@ -25,7 +33,7 @@ let cart = createSlice({
     },
   },
 });
-export const { add, toCart } = cart.actions;
+export const { updateCount, toCart } = cart.actions;
 
 export default configureStore({
   reducer: {
