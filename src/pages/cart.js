@@ -2,7 +2,7 @@ import { memo, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCount } from '../store.js';
-import { changeName, increaseAge } from './../store/userSlice.js';
+import { changeName, increaseAge } from '../store/userSlice.js';
 
 // memoはpropsが変わる時だけ再レンダリング
 const Child = memo(() => {

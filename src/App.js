@@ -5,8 +5,9 @@ import shoe from './data.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 import { useQuery } from 'react-query';
+import Cart from './pages/Cart.js';
+import Async from './pages/Async.js';
 // import Detail from './pages/Detail.js';
-import Cart from './pages/cart.js';
 const Detail = lazy(() => import('./pages/Detail.js'));
 // const Cart = lazy(() => import('./pages/cart.js'));
 
@@ -136,6 +137,7 @@ function App() {
                 button
               </button>
               <Viewed shoes={shoes}></Viewed>
+              <Async></Async>
             </>
           }
         />
